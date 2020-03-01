@@ -10,12 +10,10 @@ public class KNNmodel {
         this.k = (int) Math.round(Math.sqrt(trainingSet.length));
         this.trainingSet = trainingSet;
         topResults = new ArrayList<>();
-
     }
 
     //this method will just return the string value which is the predicted digit.
     public String makePrediction(String[] inputData){
-
         String res = "";
         euclidean_distances(inputData);
         double smallestNeighbor = 10000000;
@@ -25,8 +23,6 @@ public class KNNmodel {
                 res = topResults.get(i).getDigit();
             }
         }
-
-
         return res;
     }
 
@@ -44,7 +40,7 @@ public class KNNmodel {
 
             if (topResults.size() >= k) {
                 topResults.sort(Neighbors::compareTo);
-                topResults.remove(topResults.size() - 1);
+                topResults.remove(topResults.size() - 1); //remove the last item which should be the furthest euclidean distance
             }
             topResults.add( new Neighbors(trainingSet[i][0], euclideanDistance));
         }
