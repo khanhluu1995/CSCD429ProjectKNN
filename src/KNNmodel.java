@@ -1,19 +1,15 @@
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
 public class KNNmodel {
 
     private int k;
-    private HashMap<String, Integer> distances;
-    private LinkedList<Double> topResults;
     String[][] trainingSet;
+    ArrayList<Neighbors> topResults;
 
-    public KNNmodel(int k, String[][] trainingSet, String[][] testSet) {
+    public KNNmodel(String[][] trainingSet) {
         this.k = (int) Math.round(Math.sqrt(trainingSet.length));
         this.trainingSet = trainingSet;
-        distances = new HashMap<>();
+        topResults = new ArrayList<>();
 
     }
 
@@ -21,8 +17,15 @@ public class KNNmodel {
     public String makePrediction(String[] inputData){
 
         String res = "";
-        topResults = new LinkedList<>();
         euclidean_distances(inputData);
+        double smallestNeighbor = 10000000;
+        for(int i = 0; i < topResults.size(); i++){
+            if(topResults.get(i).getEuclideanDistance() < smallestNeighbor){
+                smallestNeighbor = topResults.get(i).getEuclideanDistance();
+                res = topResults.get(i).getDigit();
+            }
+        }
+
 
         return res;
     }
@@ -38,16 +41,12 @@ public class KNNmodel {
             // end calculate the euclidean distance
 
             //checking if the distance is valid to put into the top 205 results.
-            if(topResults.size() < k){
-                for(int x = 0; x < topResults.size(); x++){
-                    if(topResults.get(x) > euclideanDistance){
-                        topResults.add(x-1,euclideanDistance);
-                    }
-                }
 
-
+            if (topResults.size() >= k) {
+                topResults.sort(Neighbors::compareTo);
+                topResults.remove(topResults.size() - 1);
             }
-
+            topResults.add( new Neighbors(trainingSet[i][0], euclideanDistance));
         }
 
     }
