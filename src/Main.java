@@ -24,7 +24,7 @@ public class Main {
         }
 
         //create submission.csv
-        File writeFileName = new File("output.csv");
+        File writeFileName = new File("submission.csv");
 
         //start to write into submission.csv
         try{
@@ -37,48 +37,34 @@ public class Main {
             scanner = new Scanner(file);
             scanner.nextLine();
 
+            //predicting by each line from the test.csv
             while(scanner.hasNext()) {
                 String[] splitLine = scanner.nextLine().split(",");
                 KNNmodel myModel = new KNNmodel(trainingData);
-//                result.add(myModel.makePrediction(splitLine));
-                System.out.println(myModel.makePrediction(splitLine));
+                result.add(myModel.makePrediction(splitLine));
             }
 
-            System.out.println(result.size());
+            //write to file from the linkedList that has been stored from the prediction process
+            for(i = 0; i < result.size(); i++){
+                fileWriter.write(i + "," + result.get(i));
+            }
+            fileWriter.close();
 
         }catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
 
-
-
-
-//        ArrayList<Neighbors> testList = new ArrayList<>();
-//
-////        testList.add(new Neighbors("two",200));
-////        testList.add(new Neighbors("three",80));
-////        testList.add(new Neighbors("four",15));
-////        testList.add(new Neighbors("five",500));
-//        for(int x = 0; x < 205; x ++){
-//            testList.add(new Neighbors("one",100));
-////            System.out.println("digit " + testList.get(x).getDigit() + " has euclidean distance of: " + testList.get(x).getEuclideanDistance());
+//    public static void print2D(String mat[][])
+//    {
+//        // Loop through all rows
+//        for (int i = 0; i < mat.length; i++) {
+//            System.out.println();
+//            // Loop through all elements of current row
+//            for (int j = 0; j < 784; j++) {
+//                System.out.print(mat[i][j] + " ");
+//            }
 //        }
-//        testList.add(new Neighbors("two",50));
-//        testList.add(new Neighbors("two",200));
-//        testList.sort(Neighbors::compareTo);
-//        System.out.println("digit " + testList.get(0).getDigit() + "has euclidean distance of: " + testList.get(0).getEuclideanDistance());
-    }
-
-    public static void print2D(String mat[][])
-    {
-        // Loop through all rows
-        for (int i = 0; i < mat.length; i++) {
-            System.out.println();
-            // Loop through all elements of current row
-            for (int j = 0; j < 784; j++) {
-                System.out.print(mat[i][j] + " ");
-            }
-        }
-    }
+//    }
 }
