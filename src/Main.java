@@ -29,7 +29,7 @@ public class Main {
         //start to write into submission.csv
         try{
             FileWriter fileWriter = new FileWriter(writeFileName);
-            fileWriter.write("ImageId,Label");
+            fileWriter.write("ImageId,Label\n");
 
             //begin the iteration through test data and perform the prediction
             file = new File("test.csv");
@@ -42,11 +42,13 @@ public class Main {
                 String[] splitLine = scanner.nextLine().split(",");
                 KNNmodel myModel = new KNNmodel(trainingData);
                 result.add(myModel.makePrediction(splitLine));
+//                System.out.println(myModel.makePrediction(splitLine));
             }
 
             //write to file from the linkedList that has been stored from the prediction process
             for(i = 0; i < result.size(); i++){
-                fileWriter.write(i + "," + result.get(i));
+                fileWriter.write(i + "," + result.get(i) + "\n");
+//                System.out.println(i + "," + result.get(i) + "\n");
             }
             fileWriter.close();
 
